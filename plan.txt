@@ -42,9 +42,9 @@ Message.find({})
 4-9-23
 Successfuly sent private message to a recepient
 Remaining:-
-  try giving the address of the server to frontend and seperate them 
-  join groups 
-  give a unique id to each user
-  persist users and create a login
-  persist chats
+    try giving the address of the server to frontend and seperate them 
+  ✓ join groups 
+    give a unique id to each user
+    persist users and create a login
+    persist chats
   
