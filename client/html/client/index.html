@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.min.js"></script>
+    <input type="text" id="msg" plceholder="Enter message">
+    <button style="width:30px;height:20px;" type="submit" id="btn">       </button>
+    <script>
+      const socket = io();
+      const btn = document.getElementById('btn');
+      
+      btn.addEventListner('click',(e)=>{                
+              console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+              socket.emit('message','Hello from ',socket.id);                
+      })
+
+      socket.on('welcome',(msg)=>{
+          const e = document.createElement('p');
+          document.body.appendChild(e);
+          e.innerText = msg;
+      })            
+
+      
+    </script>
+  </body>
+</html>

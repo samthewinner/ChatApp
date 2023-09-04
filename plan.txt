@@ -1,0 +1,50 @@
+Read,make notes and extract useful information out of the socket.io official documentation --> basic knowhow of the stuff that socket.io provides
+Plan out all the actors and their functionalities in the app --> clear understanding of what the app will do
+Gather information about all the functions required to achieve step 2. --> all the functions are clear
+Plan the frontend --> know how it will look
+Create a server 
+Write pug code --> 
+
+code for storing messages in a model
+----
+const mongoose = require("mongoose"),
+  { Schema } = require("mongoose");
+const messageSchema = new Schema({
+  content: {
+    type: String,
+    required: true
+  },
+  userName: {
+    type: String,
+    required: true
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true
+  }
+}, { timestamps: true });
+
+module.exports = mongoose.model("Message", messageSchema);
+---
+
+---
+Listing 31.11. Loading most recent messages in chatController.js
+Message.find({})
+  .sort({ createdAt: -1 })
+  .limit(10)
+  .then(messages => {
+    client.emit("load all messages", messages.reverse());
+  });
+---
+
+
+4-9-23
+Successfuly sent private message to a recepient
+Remaining:-
+  try giving the address of the server to frontend and seperate them 
+  join groups 
+  give a unique id to each user
+  persist users and create a login
+  persist chats
+  

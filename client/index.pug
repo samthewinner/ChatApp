@@ -1,0 +1,75 @@
+//- pug -w . -o <path> -P
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Document
+        //- link(rel="stylesheet", href="style.css")
+    body 
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.min.js")
+        span Enter message: 
+        input(type="text" , id="msg", plceholder="Enter message")
+        br
+        hr
+        button(style={width:"30px",height:"20px"},type="submit",id="btn")
+        hr
+        span Enter recepient id
+        input(type="text" , id="receiver", plceholder="Enter recepient id")       
+        br
+        hr
+        p Join a group.
+        span Enter group name: 
+        input(type  = "text",id="joingrpName",plceholder="Enter group name: ") 
+        button(style={width:"30px",height:"20px"},type="submit",id="joinGrpBtn")
+        br
+        p Group chat
+        span Enter group name: 
+        input(type  = "text",id="sendgrpName",plceholder="Enter group name") 
+        //- button(style={width:"30px",height:"20px"},type="submit",id="sendGrpMsg")
+        script.
+            const createMessage = (msg,id)=>{
+                const e = document.createElement('p');
+                document.body.appendChild(e);
+                e.innerText = `Sender: ${id}\nMessage: ${msg}`;
+            }
+            const socket = io('http://localhost:5000');
+
+            const btn = document.getElementById('btn');
+            const receiver = document.getElementById('receiver');
+            const msg = document.getElementById('msg');
+            
+
+            //group
+            //- const sendGrpMsg = document.getElementById('sendGrpMsg');
+            //- const grpName = document.getElementById('grpName');
+            //- const grpMembers = document.getElementById('members');
+            const sendgrpName = document.getElementById('sendgrpName')
+            const joinGrpName = document.getElementById('joinGrpName')
+            const joinGrpBtn = document.getElementById('joinGrpBtn')
+
+            socket.on('message',(msg,id)=>{
+                createMessage(msg,id)
+            })
+
+            //- socket.on('privateMessage',(msg)=>{
+            //-     createMessage(msg,id);
+            //- })
+
+            //- sendGrpMsg.addEventListener('click',(e)=>{
+            //-     //- let members = grpMembers.value.split(',');
+            //-     socket.emit("joinGroup",grpName);
+            //-     //- console.log('group created')
+            //- })
+            
+            joinGrpBtn.addEventListener('click',(e)=>{                
+                    socket.emit('joinGroup',joingrpName.value)                                       
+            })
+
+            btn.addEventListener('click',(e)=>{                
+                    //- console.log(socket.id); // x8WIv7-mJelg7on_ALbx               
+                    //- console.log(grpName.value," ",grpName.innerText)                         
+                        socket.emit('message',msg.value,socket.id,receiver.value,sendgrpName.value);                                          
+            })
+
+        
